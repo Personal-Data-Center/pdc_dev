@@ -6,5 +6,5 @@ pdc_dev.egg-info/SOURCES.txt
 pdc_dev.egg-info/dependency_links.txt
 pdc_dev.egg-info/requires.txt
 pdc_dev.egg-info/top_level.txt
-pdc_dev/django/__init__.py
-pdc_dev/django/cas_views.py
+pdc_dev/django_pdc/__init__.py
+pdc_dev/django_pdc/cas_views.py

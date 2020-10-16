@@ -1,4 +1,4 @@
-from setuptools import find_packages, setups
+from setuptools import find_packages, setup
 
 setup(
     name='pdc_dev',

@@ -46,7 +46,7 @@ class login(django_cas_ng_views.LoginView):
         client = get_cas_client(service_url=service_url, request=request)
         redirect_login_url = client.get_login_url()
         redirect_login_url = redirect_login_url.strip('http://authorizator/')
-        redirect_login_url = "http://localhost/authorizator/cas/" + redirect_login_url
+        redirect_login_url = "http://localhost/authorizator/" + redirect_login_url
 
         if not next_page and settings.CAS_STORE_NEXT and 'CASNEXT' in request.session:
             next_page = request.session['CASNEXT']

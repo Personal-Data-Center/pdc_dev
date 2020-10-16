@@ -1,0 +1,9 @@
+README.md
+setup.py
+django/__init__.py
+django/cas_views.py
+pdc_dev.egg-info/PKG-INFO
+pdc_dev.egg-info/SOURCES.txt
+pdc_dev.egg-info/dependency_links.txt
+pdc_dev.egg-info/requires.txt
+pdc_dev.egg-info/top_level.txt

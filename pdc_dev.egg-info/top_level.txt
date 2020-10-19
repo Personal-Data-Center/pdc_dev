@@ -1,1 +1,1 @@
-django_pdc_login
+pdc

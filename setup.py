@@ -3,7 +3,7 @@ import setuptools
 setuptools.setup(
     name='pdc_dev',
     packages=setuptools.find_packages(),
-    version='0.2.0',
+    version='0.2.5',
     description='library with pdc funcionalities',
     author='Lucas Coraça Silva',
     url='https://github.com/Personal-Data-Center/pdc_dev',

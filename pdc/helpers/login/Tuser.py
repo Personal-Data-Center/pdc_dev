@@ -12,4 +12,9 @@ class Tuser:
         return self.email
 
     def isAdmin(self):
-        return self.isAdmin
+        x = False
+        if(self.isAdmin == 'true'):
+            x = True
+        else:
+            x = False
+        return x

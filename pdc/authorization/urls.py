@@ -4,5 +4,7 @@ from . import api
 
 urlpatterns = [
       path('getuser/', api.getUser.as_view(), name='getuser'),
-      path('isauthenticated/', api.isAuthenticated.as_view(), name='isauthenticated')
+      path('createservicekey/', api.CreateServiceKey.as_view(), name='createservicekey'),
+      path('getservicekey/', api.GetServiceKey.as_view(), name='getservicekey'),
+      path('removeservicekey/', api.RemoveServiceKey.as_view(), name='removeservicekey'),
  ]

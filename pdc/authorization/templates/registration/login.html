@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+<title>Login</title>
+{% if user.is_authenticated %}
+  <script type="text/javascript">
+      location.href = "/";
+  </script>
+ {% else %}
+ <form method="post" action="{% url 'login' %}">
+   {% csrf_token %}
+   <p>Login:</p>
+   <td>{{ form.username }}</td>
+   <p>Password:</p>
+   <td>{{ form.password }}</td>
+   {% if form.errors %}
+   <ul>
+     <li>Your username and password didn't match. Please try again.</li>
+   </ul>
+   {% endif %}
+ <input class="loginButton" type="submit" value="Login">
+ <input type="hidden" name="next" value="{{ next }}">
+ </form>
+{% endif %}
+
+{% endblock %}

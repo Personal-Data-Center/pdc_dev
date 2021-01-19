@@ -1,39 +1,97 @@
-from django.shortcuts import render
-from rest_framework.views import APIView
-from rest_framework.response import Response
-from django.contrib.sessions.models import Session
-from django.contrib.auth.models import User
-from django.conf import settings
-from secrets import token_urlsafe
-from pdc.authorization import models
-from django.conf import settings
 from PIL import Image, ImageOps
 from secrets import token_urlsafe
 import os
+
+from django.shortcuts import render
+from django.contrib.sessions.models import Session
+from django.contrib.auth.models import User
+from django.conf import settings
+
+from rest_framework.views import APIView
+from rest_framework.response import Response
+
+from pdc.authorization import models
 
 # TODO: require service api key, return the correct user info if user exists
 class GetUser(APIView):
 
     def get(self, request):
-        token = request.GET.get('token', False)
-        try:
-            session = Session.objects.get(session_key=token)
-            session_data = session.get_decoded()
-            user = User.objects.get(id=session_data["_auth_user_id"])
-            content = {'username': user.username, 'email': user.email, 'admin' : user.is_superuser}
-        except Exception as e:
-            content = {'user': 'None'}
+        apiKey = request.GET.get('apiKey', False)
+        sessionCookie = request.GET.get('sessionCookie', False)
+        if (models.ServiceKey.objects.filter(apiKey=apiKey).exists()):
+            try:
+                session = Session.objects.get(session_key=sessionCookie)
+                session_data = session.get_decoded()
+                user = User.objects.get(id=session_data["_auth_user_id"])
+                profilePic = models.ProfilePic.objects.get(username=user.username)
+                profile = { "size4": profilePic.profilePicSize4,
+                "size3": profilePic.profilePicSize3,
+                "size2": profilePic.profilePicSize2,
+                "size1": profilePic.profilePicSize1}
+                content = {'Success': 'True',
+                'username': user.username,
+                'email': user.email,
+                'admin' : user.is_superuser,
+                'firstName' : user.first_name,
+                'lastName' : user.last_name,
+                'last_login' : user.last_login,
+                'date_joined' : user.date_joined,
+                'lastName' : user.last_name,
+                'profilePic' : profile}
+            except Exception as e:
+                content = {'error' : str(e), 'Success': 'False'}
+        else:
+            content = {'error' : 'bad apiKey', 'Success': 'False'}
         return Response(content)
 
 class CreateUser(APIView):
 
     def post(self, request):
-        pass
+        systemKey = request.GET.get('systemKey', False)
+        username = request.GET.get('username', False)
+        password = request.GET.get('password', False)
+        admin = request.GET.get('admin', False)
+        email = request.GET.get('email', False)
+        firstName = request.GET.get('firstName', False)
+        lastName = request.GET.get('lastName', False)
+        if (systemKey == settings.SYSTEM_API_KEY):
+            try:
+                #1 delete user on db
+                user = User.objects.create_user(username=username, email=email, password=password, first_name=firstName, last_name=lastName)
+                if admin == "True":
+                    user.is_superuser = True
+                    user.is_staff = True
+                user.save()
+                #2 delete profilePic and saved pictures
+                ChangeProfilePic.deleteOldPic(self, username)
+                profilePic = models.ProfilePic(username=username)
+                profilePic.save()
+                content = {'Success': 'True'}
+            except Exception as e:
+                content = {'error' : str(e), 'Success': 'False'}
+        else:
+            content = {'error' : 'systemKey missing', 'Success': 'False'}
+        return Response(content)
 
 class DeleteUser(APIView):
 
     def post(self, request):
-        pass
+        systemKey = request.GET.get('systemKey', False)
+        username = request.GET.get('username', False)
+        if (systemKey == settings.SYSTEM_API_KEY):
+            try:
+                #1 create user on db
+                user = User.objects.get(username=username)
+                user.delete()
+                #2 config profilePic
+                profilePic = models.ProfilePic.objects.get(username=username)
+                profilePic.delete()
+                content = {'Success': 'True'}
+            except Exception as e:
+                content = {'error' : str(e), 'Success': 'False'}
+        else:
+            content = {'error' : 'systemKey missing', 'Success': 'False'}
+        return Response(content)
 
 class DeleteProfilePic(APIView):
 

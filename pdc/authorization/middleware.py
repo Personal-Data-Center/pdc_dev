@@ -11,8 +11,7 @@ def PDCAuth(get_response):
     def middleware(request):
         sessionCookie = request.COOKIES.get('authorizator_session', False)
         if sessionCookie:
-            #url = "http://authorizator/authorizator/api/getuser/?apiKey=" + settings.AUTHORIZATOR_API_KEY + "&"
-            url = "http://authorizator/authorizator/api/getuser/?apiKey=3QO09mRlCXQFCeUYuRGLDF5oQ5VW4H6fdPyqv8J_7dtAufhMXNmhSdW3VKmDbE3g1uI&"
+            url = "http://authorizator/authorizator/api/getuser/?apiKey=" + settings.AUTHORIZATOR_API_KEY + "&"
             authorizatorResponse = requests.get(url+"sessionCookie="+sessionCookie+"&").text
             authorizatorJson = json.loads(authorizatorResponse)
             if (authorizatorJson["Success"]=="True"):

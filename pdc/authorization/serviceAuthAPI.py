@@ -1,6 +1,6 @@
 from django.http import JsonResponse
 
-def GetUser(request):
+def getUser(request):
         if request.method == 'GET':
             profile = { "size4": request.user.profilePicSize4,
             "size3": request.user.profilePicSize3,
@@ -15,6 +15,17 @@ def GetUser(request):
             'last_login' : request.user.lastLogin,
             'date_joined' : request.user.dateJoined,
             'profilePic' : profile}
+        else:
+            content = {'error': 'only GET allowed', 'Success': 'Fase'}
+        return JsonResponse(content)
+
+def about(request):
+        if request.method == 'GET':
+            content = { "author": "todo",
+            "version": "todo",
+            "releaseDate": "todo",
+            "page": "todo",
+            "contactInfo": "todo"}
         else:
             content = {'error': 'only GET allowed', 'Success': 'Fase'}
         return JsonResponse(content)

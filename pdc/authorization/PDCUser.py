@@ -4,7 +4,7 @@ class PDCUser:
     dateJoined, profilePicSize4, profilePicSize3, profilePicSize2, profilePicSize1):
         self.username = username
         self.email = email
-        self.admin = (admin == "true")
+        self.admin = admin
         self.firstName = firstName
         self.lastName = lastName
         self.dateJoined = dateJoined

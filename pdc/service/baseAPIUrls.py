@@ -1,6 +1,7 @@
 from django.urls import path, include
 from pdc.authorization import serviceAuthAPI
+from . import baseAPI
 
 urlpatterns = [
-    path('getuser/', serviceAuthAPI.getUser, name='getuser'),
+    path('getserviceinfo/', baseAPI.getServiceInfo, name='getserviceinfo'),
 ]

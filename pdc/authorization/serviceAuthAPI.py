@@ -6,7 +6,7 @@ def getUser(request):
             "size3": request.user.profilePicSize3,
             "size2": request.user.profilePicSize2,
             "size1": request.user.profilePicSize1}
-            content = {'Success': 'True',
+            content = {'Success': True,
             'username': request.user.username,
             'email': request.user.email,
             'admin' : request.user.admin,
@@ -16,16 +16,5 @@ def getUser(request):
             'date_joined' : request.user.dateJoined,
             'profilePic' : profile}
         else:
-            content = {'error': 'only GET allowed', 'Success': 'Fase'}
-        return JsonResponse(content)
-
-def about(request):
-        if request.method == 'GET':
-            content = { "author": "todo",
-            "version": "todo",
-            "releaseDate": "todo",
-            "page": "todo",
-            "contactInfo": "todo"}
-        else:
-            content = {'error': 'only GET allowed', 'Success': 'Fase'}
+            content = {'error': 'only GET allowed', 'Success': False}
         return JsonResponse(content)

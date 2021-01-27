@@ -3,6 +3,8 @@ from django.db import models
 class ServiceKey(models.Model):
     serviceName = models.CharField(max_length=30, unique=True)
     apiKey = models.CharField(max_length=67, unique=True)
+    canGet = models.BooleanField(default=False)
+    canPost = models.BooleanField(default=False)
 
 class ProfilePic(models.Model):
     username = models.CharField(max_length=30, unique=True)

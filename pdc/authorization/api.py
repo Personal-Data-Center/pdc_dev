@@ -118,13 +118,13 @@ class changeUserPassword(APIView):
 class changeUserInfo(APIView):
 
     def post(self, request):
-        apiKey = request.GET.get('apiKey', False)
-        username = request.GET.get('username', False)
-        newUsername = request.GET.get('newUsername', False)
-        lastName = request.GET.get('lastName', False)
-        firstName = request.GET.get('firstName', False)
-        email = request.GET.get('email', False)
-        admin = request.GET.get('admin', False)
+        apiKey = request.GET.get('apiKey')
+        username = request.GET.get('username')
+        newUsername = request.GET.get('newUsername')
+        lastName = request.GET.get('lastName')
+        firstName = request.GET.get('firstName')
+        email = request.GET.get('email')
+        admin = request.GET.get('admin', 'False')
         if (models.ServiceKey.objects.filter(apiKey=apiKey).exists()):
             try:
                 user = User.objects.get(username=username)
